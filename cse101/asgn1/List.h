@@ -5,9 +5,9 @@
 #include <string.h>
 
 // Constructors-Destructors ---------------------------------------------------
-typedef struct ListObj* List;
+typedef struct ListObj *List;
+typedef struct NodeObj *Node;
 List newList(void);
-bool isEmpty(List L);
 void freeList(List* pL);
 
 // Access functions -----------------------------------------------------------
