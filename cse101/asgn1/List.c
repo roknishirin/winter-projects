@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 
-// structs  ---------------------------------------------------------
+// structs  ------------------------------------------------------------------
 
 // Creates and returns a new empty List.
 typedef struct ListObj {
@@ -21,7 +21,7 @@ typedef struct NodeObj {
 
 } NodeObj;
 
-// Constructors-Destructors -----------------------------------------
+// Constructors-Destructors ------------------------------------------------
 // Creates and returns a new empty List.
 List newList(void) {
     List L = malloc(sizeof(ListObj));
