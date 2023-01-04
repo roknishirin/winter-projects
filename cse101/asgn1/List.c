@@ -377,23 +377,28 @@ void deleteBack(List L) {
 // Delete cursor element, making cursor undefined.
 // Pre: length()>0, index()>=0
 void delete(List L) {
-    if (L == NULL || L->length <= 0 || L->index < 0) {
+    if (L == NULL) {
         fprintf(stderr, "delete error\n");
         exit(EXIT_FAILURE);
+    }
+    if (L->cursor == NULL  || L->length == 0 || L->index == -1) {
+        return;
     }
     if (L->length == 1) {
         freeNode(&L->front);
         L->front = NULL;
         L->back = NULL;
     } else if (L->front == L->cursor) {
-        deleteFront(L);
+        L->front = L->front->next;
+        L->front->prev = NULL;
     } else if (L->back == L->cursor) {
-        deleteBack(L);
+        L->back = L->back->prev;
+        L->back->next = NULL;
     } else {
         L->cursor->prev->next = L->cursor->next;
         L->cursor->next->prev = L->cursor->prev;
-        freeNode(&L->cursor);
     }
+    freeNode(&L->cursor);
     L->index--;
     L->length--;
 }
