@@ -409,7 +409,7 @@ void printList(FILE* out, List L) {
     for (temp = L->front; temp != NULL; temp = temp->next) {
         fprintf(out, "%d ", temp->data);
     }
-    fprintf(out, "\n");
+    //fprintf(out, "\n");
 }
 
 // Returns a new List representing the same integer sequence as L. 
