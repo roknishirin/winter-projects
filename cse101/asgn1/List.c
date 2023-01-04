@@ -254,9 +254,9 @@ void prepend(List L, int x) {
         temp->next = L->front; 
         L->front->prev = temp;
         L->front = temp;
-        /*if (L->cursor != NULL) {
+        if (L->cursor != NULL) {
             L->index++;
-        }*/
+        }
     }
     L->length++;
 }
