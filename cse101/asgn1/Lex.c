@@ -9,6 +9,7 @@
 
 int main(int argc, char *argv[]) {
     FILE *in, *out;
+    char line[MAX_LEN];
 
     // check command line for correct number of arguments
     if (argc != 3) {
@@ -35,7 +36,7 @@ int main(int argc, char *argv[]) {
     }
 
     // allocating array
-    char **arry = malloc(linecount * sizeof(char *));
+    char **arry = malloc(line_count * sizeof(char *));
 
     fseek(in, 0, SEEK_SET); // to read the start of the input file
 
@@ -45,10 +46,10 @@ int main(int argc, char *argv[]) {
     }
 
     /* CHANGE PROBABLY*/
-    int index = 0;
+    int dex = 0;
     while (fgets(line, MAX_LEN, in) != NULL) {
-        strcpy(array[index], line);
-        index++;
+        strcpy(arry[dex], line);
+        dex++;
     }
 
     // creating the list
@@ -58,16 +59,16 @@ int main(int argc, char *argv[]) {
             append(lst, i);
         }
         else {
-            if (strcmp(arry[get(lst)]), arry[i] >= 0) {
+            if (strcmp(arry[get(lst)], arry[i]) >= 0) {
                 prepend(lst, i);
             }
             else {
                 while (index(lst) >= 0) {
-                    if (strcmp(arry[get(lst)]), arry[i] >= 0) {
+                    if (strcmp(arry[get(lst)], arry[i]) >= 0) {
                         insertBefore(lst, i);
                         break;
                     }
-                    moveNext;
+                    moveNext(lst);
                 }
                 if (index(lst) == -1) {
                     append(lst, i);
@@ -79,7 +80,7 @@ int main(int argc, char *argv[]) {
 
     // printing
     for (int i = 0; i < line_count; i++) {
-        fprintf(out, "%s", arry[get(L)]);
+        fprintf(out, "%s", arry[get(lst)]);
         moveNext(lst);
     }
 
@@ -89,7 +90,7 @@ int main(int argc, char *argv[]) {
     }
 
     free(arry);
-    freeList(lst);
+    freeList(&lst);
     fclose(in);
     fclose(out);
     return 0;
