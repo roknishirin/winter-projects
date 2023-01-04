@@ -237,5 +237,211 @@ void moveNext(List L) {
     }
 }
 
+// Insert new element into L. 
+// If L is non-empty, insertion takes place before front element.
+void prepend(List L, int x) {
+    if (L == NULL) {
+        fprintf(stderr, "prepend error\n");
+        exit(EXIT_FAILURE);
+    }
+    Node temp = newNode(x);
+
+    // adding a new node if empty
+    if (L->length == 0) { 
+        L->front = temp;
+        L->back = temp;
+    } else { 
+        temp->next = L->front; 
+        L->front->prev = temp;
+        L->front = temp;
+        /*if (L->cursor != NULL) {
+            L->index++;
+        }*/
+    }
+    L->length++;
+}
 
 
+ // Insert new element into L. 
+ // If L is non-empty, insertion takes place after back element.
+ void append(List L, int x) {
+    if (L == NULL) {
+        fprintf(stderr, "prepend error\n");
+        exit(EXIT_FAILURE);
+    }
+    Node temp = newNode(x);
+    if (L->length == 0) {
+        L->front = temp;
+        L->back = temp;
+    } else {
+        temp->prev = L->back;
+        L->back->next = temp;
+        L->back = temp;
+    }
+    L->length++;
+ }
+
+// Insert new element before cursor.
+// Pre: length()>0, index()>=0
+void insertBefore(List L, int x) {
+    if (L == NULL || L->length == 0 || L->index < 0) {
+        fprintf(stderr, "insertBefore error\n");
+        exit(EXIT_FAILURE);
+    }
+    Node temp = newNode(x);
+    if (L->index == 0) {
+        temp->next = L->front;
+        L->front->prev = temp;
+        L->front = temp;
+    } else {
+        L->cursor->prev->next = temp;
+        temp->prev = L->cursor->prev;
+        temp->next = L->cursor;
+        L->cursor->prev = temp;
+    }
+    L->index++;
+    L->length++;
+}
+
+// Insert new element after cursor. 
+// Pre: length()>0, index()>=0
+void insertAfter(List L, int x) {
+    if (L == NULL || L->index < 0 || L->length <= 0) {
+        fprintf(stderr, "insertAfter error\n");
+        exit(EXIT_FAILURE);
+    }
+    Node temp = newNode(x);
+    if (L->cursor == L->back) {
+        temp->prev = L->back;
+        L->back->next = temp;
+        L->back = temp;
+    } else {
+        L->cursor->next->prev = temp;
+        temp->next = L->cursor->next;
+        temp->prev = L->cursor;
+        L->cursor->next = temp;
+    }
+    L->length++;
+}
+
+// Delete the front element. Pre: length()>0
+void deleteFront(List L) {
+    if (L == NULL || L->length <= 0) {
+        fprintf(stderr, "deleteFront error\n");
+        exit(EXIT_FAILURE);
+    }
+    Node temp = L->front;
+    if (L->length == 1) {
+        L->index = -1;
+        L->cursor = NULL;
+        L->front = NULL;
+        L->back = NULL;
+    }
+    else {
+        if (L->front == L->cursor) {
+            L->front = L->front->next;
+            L->cursor = NULL;
+        } else { 
+            L->front = L->front->next;
+        }
+        L->index--;
+    }
+    L->length--;
+    freeNode(&temp);
+}
+
+// Delete the back element. Pre: length()>0
+void deleteBack(List L) {
+    if (L == NULL || L->length <= 0) {
+        fprintf(stderr, "deleteFront error\n");
+        exit(EXIT_FAILURE);
+    }
+    Node temp = L->back;
+    if (L->length == 1) {
+        L->index = -1;
+        L->cursor = NULL;
+        L->front = NULL;
+        L->back = NULL;
+    } else {
+        if (L->cursor == temp) {
+            L->cursor = NULL;
+            L->index--;
+        }
+        L->back = L->back->prev;
+        L->back->next = NULL;
+    }
+    L->length--;
+    freeNode(&temp);
+}
+
+// Delete cursor element, making cursor undefined.
+// Pre: length()>0, index()>=0
+void delete(List L) {
+    if (L == NULL || L->length <= 0 || L->index < 0) {
+        fprintf(stderr, "delete error\n");
+        exit(EXIT_FAILURE);
+    }
+    if (L->length == 1) {
+        freeNode(&L->front);
+        L->front = NULL;
+        L->back = NULL;
+    } else if (L->front == L->cursor) {
+        deleteFront(L);
+    } else if (L->back == L->cursor) {
+        deleteBack(L);
+    } else {
+        L->cursor->prev->next = L->cursor->next;
+        L->cursor->next->prev = L->cursor->prev;
+        freeNode(&L->cursor);
+    }
+    L->index--;
+    L->length--;
+}
+
+
+// other operations -----------------------------------------------------
+
+// Prints to the file pointed to by out, 
+// a string representation of L consisting of a space 
+// separated sequence of integers, with front on left.
+void printList(FILE* out, List L) {
+    Node temp = NULL;
+    for (temp = L->front; temp != NULL; temp = temp->next) {
+        fprintf(out, "%d ", temp->data);
+    }
+    fprintf(out, "\n");
+}
+
+// Returns a new List representing the same integer sequence as L. 
+// The cursor in the new list is undefined, regardless of the state of the cursor in L. 
+// The state of L is unchanged.
+List copyList(List L) {
+    Node temp = L->front;
+    List cpy = newList();
+    for (int i = 0; i < L->length; i++) {
+        append(cpy, temp->data);
+        temp = temp->next;
+    }
+    return cpy;
+}
+
+// Returns a new List which is the concatenation of A and B. 
+// The cursor in the new List is undefined,
+// regardless of the states of the cursors in A and B.
+// The states of A and B are unchanged.
+List concatList(List A, List B) {
+    if (A == NULL || B == NULL) {
+        fprintf(stderr, "error in concatlist\n");
+        exit(EXIT_FAILURE);
+    }
+    List joined = newList();
+    for (int i = 0; i < A->length; i++) {
+        append(joined, A->front->data);
+        A->front = A->front->next;
+    }
+    for (int i = 0; i < B->length; i++) {
+        append(joined, B->front->data);
+        B->front = B->front->next;
+    }
+    return joined;
+}
