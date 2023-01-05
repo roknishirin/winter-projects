@@ -439,14 +439,9 @@ List concatList(List A, List B) {
         fprintf(stderr, "error in concatlist\n");
         exit(EXIT_FAILURE);
     }
-    List joined = newList();
-    for (int i = 0; i < A->length; i++) {
-        append(joined, A->front->data);
-        A->front = A->front->next;
-    }
-    for (int i = 0; i < B->length; i++) {
-        append(joined, B->front->data);
-        B->front = B->front->next;
+    List joined = copyList(A);
+    for (Node C = B->front; C != NULL; C = C->next) {
+        append(joined, C->data);
     }
     return joined;
 }
