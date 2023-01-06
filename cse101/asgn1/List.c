@@ -370,10 +370,15 @@ void deleteBack(List L) {
 // Delete cursor element, making cursor undefined.
 // Pre: length()>0, index()>=0
 void delete(List L) {
-    if (L == NULL || L->length == 0 || L->index < 0) {
+    if (L == NULL) {
         fprintf(stderr, "delete error\n");
         exit(EXIT_FAILURE);
     }
+
+    if (L->cursor == NULL  || L->length == 0 || L->index == -1) {
+        return;
+    }
+
     if (L->length == 1) { // if only one thing in the list
         freeNode(&L->front);
         L->front = NULL;

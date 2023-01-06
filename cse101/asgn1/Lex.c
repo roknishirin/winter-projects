@@ -38,6 +38,7 @@ int main(int argc, char *argv[]) {
     rewind(in); // to read the start of the input file
 
     // allocating array
+    /*change?*/
     char* arry[line_count];
     int i;
     for (i=0; i < line_count; i++) {
@@ -46,14 +47,16 @@ int main(int argc, char *argv[]) {
     }
 
     // creating the list
+    /*change?*/
     List lst = newList();
-    prepend(lst, 0);
-    for (int i = 1; i < line_count; i++) {
+    for (int i = 0; i < line_count; i++) {
         moveFront(lst);
         while (index(lst)>= 0 && strcmp(arry[i], arry[get(lst)])>0) {
+            // if there are still differences
             moveNext(lst);
         }
         if (index(lst) == -1) {
+            // if at the beginning
             append(lst, i);
         } else {
             insertBefore(lst, i);
