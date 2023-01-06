@@ -106,8 +106,9 @@ int back(List L) {
     return L->back->data;
 }
 
+// Returns cursor element of L. Pre: length()>0, index()>=0
 int get(List L) {
-    if (L == NULL || L->cursor == NULL || L->length == 0 || L->index < 0) {
+    if (L == NULL || L->length == 0 || L->index < 0) {
         fprintf(stderr, "get error\n");
         exit(EXIT_FAILURE);
     }
@@ -143,11 +144,6 @@ void clear(List L) {
     while (L->length > 0) {
         deleteFront(L);
     }
-    L->index = -1;
-    L->front = NULL;
-    L->back = NULL;
-    L->cursor = NULL;
-    L->length = 0;
 }
 
 // Overwrites the cursor element’s data with x. Pre: length()>0, index()>=0
@@ -166,12 +162,10 @@ void moveFront(List L) {
         exit(EXIT_FAILURE);
     }
 
-    if (L->length == 0) { // do nothing if empty
-        return;
-    }
-
-    L->cursor = L->front;
-    L->index = 0;
+    if (L->length > 0) { // do nothing if empty
+        L->cursor = L->front;
+        L->index = 0;
+    } 
 }
 
 // If L is non-empty, sets cursor under the back element, otherwise does nothing.
@@ -181,11 +175,10 @@ void moveBack(List L) {
         exit(EXIT_FAILURE);
     }
 
-    if (L->length == 0) { // do nothing if empty
-        return; 
+    if (L->length > 0) { // do nothing if empty
+        L->cursor = L->back; 
+        L->index = L->length - 1;
     }
-    L->cursor = L->back; 
-    L->index = L->length - 1;
 }
 
 // If cursor is defined and not at front, move cursor one step toward the front of L;
@@ -197,7 +190,7 @@ void movePrev(List L) {
         exit(EXIT_FAILURE);
     }
 
-    if (L->cursor == NULL) { // undefined cursor -> do nothing
+    if (L->index == -1) { // undefined cursor -> do nothing
         return;
     }
 
@@ -222,7 +215,7 @@ void moveNext(List L) {
         fprintf(stderr, "moveNext error\n");
         exit(EXIT_FAILURE);
     }  
-    if (L->cursor == NULL) { // if cursor is undefined
+    if (L->index == -1) { // if cursor is undefined
         return;
     }
     if (L->cursor == L->back) { // if cursor is defined & at back
@@ -377,14 +370,11 @@ void deleteBack(List L) {
 // Delete cursor element, making cursor undefined.
 // Pre: length()>0, index()>=0
 void delete(List L) {
-    if (L == NULL) {
+    if (L == NULL || L->length == 0 || L->index < 0) {
         fprintf(stderr, "delete error\n");
         exit(EXIT_FAILURE);
     }
-    if (L->cursor == NULL  || L->length == 0 || L->index == -1) {
-        return;
-    }
-    if (L->length == 1) {
+    if (L->length == 1) { // if only one thing in the list
         freeNode(&L->front);
         L->front = NULL;
         L->back = NULL;
@@ -392,8 +382,8 @@ void delete(List L) {
         L->front = L->front->next;
         L->front->prev = NULL;
     } else if (L->back == L->cursor) {
-        L->back = L->back->prev;
-        L->back->next = NULL;
+       L->back = L->back->prev;
+       L->back->next = NULL;
     } else {
         L->cursor->prev->next = L->cursor->next;
         L->cursor->next->prev = L->cursor->prev;
