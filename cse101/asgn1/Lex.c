@@ -31,54 +31,37 @@ int main(int argc, char *argv[]) {
     }
 
     int line_count = 0;
-    while (fgets(line, MAX_LEN, in) != NULL) {
+    while (fscanf(in, " %s", line) != EOF) {
         line_count++;
     }
 
+    rewind(in); // to read the start of the input file
+
     // allocating array
-    char **arry = malloc(line_count * sizeof(char *));
-
-    fseek(in, 0, SEEK_SET); // to read the start of the input file
-
-    /* need to change ? */
-    for (int i = 0; i < line_count; i++) {
-        arry[i] = malloc(268 * sizeof(char));
-    }
-
-    /* CHANGE PROBABLY*/
-    int dex = 0;
-    while (fgets(line, MAX_LEN, in) != NULL) {
-        strcpy(arry[dex], line);
-        dex++;
+    char* arry[line_count];
+    int i;
+    for (i=0; i < line_count; i++) {
+        arry[i] = malloc(sizeof(char) * MAX_LEN);
+        fgets(arry[i], MAX_LEN, in);
     }
 
     // creating the list
     List lst = newList();
-    for (int i = 0; i < line_count; i++) {
-        if (length(lst) == 0) {
-            append(lst, i);
-        }
-        else {
-            if (strcmp(arry[get(lst)], arry[i]) >= 0) {
-                prepend(lst, i);
-            }
-            else {
-                while (index(lst) >= 0) {
-                    if (strcmp(arry[get(lst)], arry[i]) >= 0) {
-                        insertBefore(lst, i);
-                        break;
-                    }
-                    moveNext(lst);
-                }
-                if (index(lst) == -1) {
-                    append(lst, i);
-                }
-            }
-        }
+    prepend(lst, 0);
+    for (int i = 1; i < line_count; i++) {
         moveFront(lst);
+        while (index(lst)>= 0 && strcmp(arry[i], arry[get(lst)])>0) {
+            moveNext(lst);
+        }
+        if (index(lst) == -1) {
+            append(lst, i);
+        } else {
+            insertBefore(lst, i);
+        }
     }
 
     // printing
+    moveFront(lst);
     for (int i = 0; i < line_count; i++) {
         fprintf(out, "%s", arry[get(lst)]);
         moveNext(lst);
@@ -89,7 +72,7 @@ int main(int argc, char *argv[]) {
         free(arry[i]);
     }
 
-    free(arry);
+    // closing
     freeList(&lst);
     fclose(in);
     fclose(out);
