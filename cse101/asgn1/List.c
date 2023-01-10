@@ -68,7 +68,7 @@ void freeNode(Node *pN) {
 // Returns the number of elements in L.
 int length(List L) {
     if (L == NULL) {
-        fprintf(stderr, "length error\n");
+        fprintf(stderr, "List Error: calling length() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
     return L->length;
@@ -77,7 +77,7 @@ int length(List L) {
 // Returns index of cursor element if defined, -1 otherwise.
 int index(List L) {
     if (L == NULL) {
-        fprintf(stderr, "index error\n");
+        fprintf(stderr, "List Error: calling index() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
 
@@ -91,7 +91,7 @@ int index(List L) {
 // Returns front element of L. Pre: length()>0
 int front(List L) {
     if (L->length == 0 || L == NULL) {
-        fprintf(stderr, "front error\n");
+        fprintf(stderr, "List Error: calling front() on a NULL or empty list\n");
         exit(EXIT_FAILURE);
     }
     return L->front->data;
@@ -100,7 +100,7 @@ int front(List L) {
 // Returns back element of L. Pre: length()>0
 int back(List L) {
     if (L->length == 0 || L == NULL) {
-        fprintf(stderr, "front error\n");
+        fprintf(stderr, "List Error: calling back() on a NULL or empty list\n");
         exit(EXIT_FAILURE);
     }
     return L->back->data;
@@ -109,7 +109,7 @@ int back(List L) {
 // Returns cursor element of L. Pre: length()>0, index()>=0
 int get(List L) {
     if (L == NULL || L->length == 0 || L->index < 0) {
-        fprintf(stderr, "get error\n");
+        fprintf(stderr, "List Error: calling get() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
     return L->cursor->data;
@@ -118,18 +118,18 @@ int get(List L) {
 // Returns true iff Lists A and B are in same state, and returns false otherwise.
 bool equals(List A, List B) {
     if (A == NULL || B == NULL) {
-        fprintf(stderr, "equals error\n");
+        fprintf(stderr, "List Error: calling equals() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
-    bool same = (A->length == B->length); // comparing list lengths 
+    bool eq = (A->length == B->length); // comparing list lengths 
     Node C = A->front;
     Node D = B->front;
-    while (same && C != NULL) {
-        same = (C->data == D->data); // comparing list values 
+    while (eq && C != NULL) {
+        eq = (C->data == D->data); // comparing list values 
         C = C->next;
         D = D->next;
     }
-    return same; 
+    return eq; 
 
 }
 
@@ -138,7 +138,7 @@ bool equals(List A, List B) {
 // Resets L to its original empty state
 void clear(List L) {
     if (L == NULL) {
-        fprintf(stderr, "clear error\n");
+        fprintf(stderr, "List Error: calling clear() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
     while (L->length > 0) {
@@ -149,7 +149,7 @@ void clear(List L) {
 // Overwrites the cursor element’s data with x. Pre: length()>0, index()>=0
 void set(List L, int x) {
     if (L == NULL || L->length <= 0 || L->index < 0) {
-        fprintf(stderr, "set error\n");
+        fprintf(stderr, "List Error: calling set() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
     L->cursor->data = x;
@@ -158,7 +158,7 @@ void set(List L, int x) {
 // If L is non-empty, sets cursor under the front element, otherwise does nothing.
 void moveFront(List L) {
     if (L == NULL) {
-        fprintf(stderr, "moveFront error\n");
+        fprintf(stderr, "List Error: calling moveFront() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
 
@@ -171,7 +171,7 @@ void moveFront(List L) {
 // If L is non-empty, sets cursor under the back element, otherwise does nothing.
 void moveBack(List L) {
     if (L == NULL) {
-        fprintf(stderr, "moveBack error\n");
+        fprintf(stderr, "List Error: calling moveBack on a NULL list\n");
         exit(EXIT_FAILURE);
     }
 
@@ -186,7 +186,7 @@ void moveBack(List L) {
 // if cursor is undefined do nothing
 void movePrev(List L) {
     if (L == NULL) {
-        fprintf(stderr, "movePrev error\n");
+        fprintf(stderr, "List Error: calling movePrev on a NULL list\n");
         exit(EXIT_FAILURE);
     }
 
@@ -212,7 +212,7 @@ void movePrev(List L) {
 // if cursor is undefined do nothing
 void moveNext(List L) {
       if (L == NULL) {
-        fprintf(stderr, "moveNext error\n");
+        fprintf(stderr, "List Error: calling moveNext on a NULL list\n");
         exit(EXIT_FAILURE);
     }  
     if (L->index == -1) { // if cursor is undefined
@@ -234,7 +234,7 @@ void moveNext(List L) {
 // If L is non-empty, insertion takes place before front element.
 void prepend(List L, int x) {
     if (L == NULL) {
-        fprintf(stderr, "prepend error\n");
+        fprintf(stderr, "List Error: calling prepend() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
     Node temp = newNode(x);
@@ -259,7 +259,7 @@ void prepend(List L, int x) {
  // If L is non-empty, insertion takes place after back element.
  void append(List L, int x) {
     if (L == NULL) {
-        fprintf(stderr, "prepend error\n");
+        fprintf(stderr, "List Error: calling append() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
     Node temp = newNode(x);
@@ -278,7 +278,7 @@ void prepend(List L, int x) {
 // Pre: length()>0, index()>=0
 void insertBefore(List L, int x) {
     if (L == NULL || L->length == 0 || L->index < 0) {
-        fprintf(stderr, "insertBefore error\n");
+        fprintf(stderr, "List Error: calling insertBefore() on a NULL or invalid list\n");
         exit(EXIT_FAILURE);
     }
     Node temp = newNode(x);
@@ -300,7 +300,7 @@ void insertBefore(List L, int x) {
 // Pre: length()>0, index()>=0
 void insertAfter(List L, int x) {
     if (L == NULL || L->index < 0 || L->length <= 0) {
-        fprintf(stderr, "insertAfter error\n");
+        fprintf(stderr, "List Error: calling insertAfter() on a NULL or invalid list\n");
         exit(EXIT_FAILURE);
     }
     Node temp = newNode(x);
@@ -320,7 +320,7 @@ void insertAfter(List L, int x) {
 // Delete the front element. Pre: length()>0
 void deleteFront(List L) {
     if (L == NULL || L->length <= 0) {
-        fprintf(stderr, "deleteFront error\n");
+        fprintf(stderr, "List Error: calling deleteFront() on a NULL or invalid list\n");
         exit(EXIT_FAILURE);
     }
     Node temp = L->front;
@@ -346,7 +346,7 @@ void deleteFront(List L) {
 // Delete the back element. Pre: length()>0
 void deleteBack(List L) {
     if (L == NULL || L->length <= 0) {
-        fprintf(stderr, "deleteFront error\n");
+        fprintf(stderr, "List Error: calling deleteBack() on a NULL or invalid list\n");
         exit(EXIT_FAILURE);
     }
     Node temp = L->back;
@@ -371,7 +371,7 @@ void deleteBack(List L) {
 // Pre: length()>0, index()>=0
 void delete(List L) {
     if (L == NULL) {
-        fprintf(stderr, "delete error\n");
+        fprintf(stderr, "List Error: calling delete() on a NULL list\n");
         exit(EXIT_FAILURE);
     }
 
