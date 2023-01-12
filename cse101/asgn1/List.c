@@ -232,6 +232,13 @@ void moveNext(List L) {
 
 // Insert new element into L. 
 // If L is non-empty, insertion takes place before front element.
+
+//
+//
+//
+//DO I INCREMENT THE INDEX?
+//
+//
 void prepend(List L, int x) {
     if (L == NULL) {
         fprintf(stderr, "List Error: calling prepend() on a NULL list\n");
