@@ -38,8 +38,8 @@ def part_a(filename:str='data/pokemon.txt'):
     """
     pass # TODO: Your code here (<= 3 lines)
     data = np.genfromtxt(filename)
-    sol = np.mean(data, 0)
-    sol[1:]
+    sol = np.mean(data, axis = 0)
+    return sol[1:]
 
 
 def part_b(filename:str='data/pokemon.txt'):
@@ -54,6 +54,8 @@ def part_b(filename:str='data/pokemon.txt'):
     2. Use np.where(...) to select only certain rows.
     """
     pass # TODO: Your code here (<= 5 lines)
+    data = np.genfromtxt(filename)
+    
 
 def part_c(filename:str='data/pokemon.txt', ntrials:int=5000):
     """
