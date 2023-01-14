@@ -29,10 +29,13 @@ Hint(s):
 def distribution_random():
     np.random.seed(0)
     x_vals = np.arange(10000)
-    y_vals = np.random.random(10000)
+    y_vals = []
+    for i in range(10000):
+        y_vals.append(np.random.randint(0,9999))
+    
     plt.scatter(x_vals, y_vals, c = '#F8B195', s = 2)
-    plt.xlabel("random number")
-    plt.ylabel("index")
+    plt.ylabel("random number")
+    plt.xlabel("index")
     plt.title("distribution_random")
     plt.savefig("distribution_random.png")
     plt.show()
@@ -45,8 +48,8 @@ def distribution_KISS():
         y_vals.append(next(rng_kiss) % 10000)
 
     plt.scatter(x_vals, y_vals, c = '#F67280', s = 2)
-    plt.xlabel("random number")
-    plt.ylabel("index")
+    plt.ylabel("random number")
+    plt.xlabel("index")
     plt.title("distribution_KISS")
     plt.savefig("distribution_KISS.png")
     plt.show()
@@ -59,8 +62,8 @@ def distribution_SHR3():
         y_vals.append(next(rng_shr3) % 10000)
 
     plt.scatter(x_vals, y_vals, c = '#C06C84', s = 2)
-    plt.xlabel("random number")
-    plt.ylabel("index")
+    plt.ylabel("random number")
+    plt.xlabel("index")
     plt.title("distribution_SHR3")
     plt.savefig("distribution_SHR3.png")
     plt.show()
