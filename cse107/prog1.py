@@ -34,7 +34,7 @@ def distribution_random():
     plt.xlabel("random number")
     plt.ylabel("index")
     plt.title("distribution_random")
-    plt.savefig("plot1.png")
+    plt.savefig("distribution_random.png")
     plt.show()
 
 def distribution_KISS():
@@ -48,7 +48,7 @@ def distribution_KISS():
     plt.xlabel("random number")
     plt.ylabel("index")
     plt.title("distribution_KISS")
-    plt.savefig("plot2.png")
+    plt.savefig("distribution_KISS.png")
     plt.show()
 
 def distribution_SHR3():
@@ -62,7 +62,7 @@ def distribution_SHR3():
     plt.xlabel("random number")
     plt.ylabel("index")
     plt.title("distribution_SHR3")
-    plt.savefig("plot3.png")
+    plt.savefig("distribution_SHR3.png")
     plt.show()
     
 
@@ -148,7 +148,7 @@ def plot_output():
 
     plt.plot(p, n_3, color= '#FFCCFF', label = 'n = 3')
     plt.plot(p, n_11, color= '#FFCC66', label = 'n = 11', linestyle='--')
-    plt.plot(p, n_21, color= '#FF99CC', label = 'n = 21',linestyle=':')
+    plt.plot(p, n_21, color= '#FF99CC', label = 'n = 21', linestyle=':')
     plt.title("Relating P(win point) to P(win game)")
     plt.legend(loc="upper left")
     plt.xlabel("P(win point)")
