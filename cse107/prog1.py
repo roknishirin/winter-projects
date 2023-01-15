@@ -139,15 +139,14 @@ def plot_output():
     # TODO: Your code here (10-20 lines)
     index = 0
     p = np.linspace(0.0, 1.0, 26) # a way of making a list from 0 to 1.0
-    n_3 = np.zeros(26)
-    n_11 = np.zeros(26)
-    n_21 = np.zeros(26)
+    n_3 = []
+    n_11 = []
+    n_21 = []
 
-    for i in range(26): 
-        n_3[i] = pingpong(3, index)
-        n_11[i] = pingpong(11, index)
-        n_21[i] = pingpong(21, index)
-        index += 0.04
+    for i in np.arange(0.0, 1.04, .04): 
+        n_3.append(pingpong(3, i))
+        n_11.append(pingpong(11, i))
+        n_21.append(pingpong(21, i))
 
     plt.plot(p, n_3, color= '#FFCCFF', label = 'n = 3')
     plt.plot(p, n_11, color= '#FFCC66', label = 'n = 11', linestyle='--')

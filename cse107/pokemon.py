@@ -36,10 +36,9 @@ def part_a(filename:str='data/pokemon.txt'):
     files to test your function.
     2. Use np.mean(...) with its axis parameter to compute means in one line.
     """
-    pass # TODO: Your code here (<= 3 lines)
-    data = np.genfromtxt(filename)
-    sol = np.mean(data, axis = 0)
-    return sol[1:]
+    # TODO: Your code here (<= 3 lines)
+    nums = np.genfromtxt(filename)
+    return np.mean(nums, axis = 0)[1:]
 
 
 def part_b(filename:str='data/pokemon.txt'):
@@ -54,8 +53,13 @@ def part_b(filename:str='data/pokemon.txt'):
     2. Use np.where(...) to select only certain rows.
     """
     pass # TODO: Your code here (<= 5 lines)
-    data = np.genfromtxt(filename)
-    
+    nums = np.genfromtxt(filename)
+    median_weight = np.median(nums, axis=0)[3]
+    certain_rows = []
+    for i in np.where(nums[ :,3] > median_weight)[0]:
+        certain_rows.append(nums[i])
+    output = np.mean(certain_rows, axis=0)
+    return output[1:]
 
 def part_c(filename:str='data/pokemon.txt', ntrials:int=5000):
     """
@@ -71,15 +75,41 @@ def part_c(filename:str='data/pokemon.txt', ntrials:int=5000):
     2. You may want to use np.random.choice(...) with the parameter a
     being np.arange(...) and the parameter p being the data column!
     """
-
+    seed = 1
+    np.random.seed(seed)
+    nums = np.genfromtxt(filename)[:, 4]
+    total = 0
+    
     def sim_one():
         """
         This is a nested function only accessible by parent 'part_c',
         which we're in now. You may want to implement this function!
         """
-        pass
+        caught = []
+        encounters = 0
+        while (len(caught) < len(nums)):
+            encounters += 1
+            n = np.random.random()
+            chance = 0
+            index = 0
+            for i in nums:
+                chance += i
+                index += 1
+                if n < chance:
+                    if index not in caught:
+                        caught.append(index)
+                    break                    
+                else:
+                    continue
+        return encounters
+                    
+        
 
-    pass # TODO: Your code here (10-20 lines)
+    # TODO: Your code here (10-20 lines)
+    for i in range(ntrials):
+        total += sim_one()
+    return total / ntrials
+    
 
 def part_d(filename:str='data/pokemon.txt', ntrials:int=5000):
     """
@@ -96,17 +126,42 @@ def part_d(filename:str='data/pokemon.txt', ntrials:int=5000):
     being np.arange(...) and the parameter p being the data column!
     3. You may want to use np.random.rand(...).
     """
-    data = np.genfromtxt(filename)[:, -2:]
+    data = np.genfromtxt(filename)[:, -2]
+    catch_rate = np.genfromtxt(filename)[:,-1]
     n_pokemon = data.shape[0]
+    seed = 1
+    np.random.seed(seed)
+    sum = 0
 
     def sim_one():
         """
         This is a nested function only accessible by parent 'part_d',
         which we're in now. You may want to implement this function!
         """
-        pass
+        caught = []
+        catch = 0
+        while (len(caught) < n_pokemon):
+            catch += 1
+            n = np.random.random()
+            chance = 0
+            index = -1
+            for i in data:
+                chance += i
+                index += 1
+                if n < chance:
+                    if index not in caught:
+                        if (np.random.random() < catch_rate[index]):
+                            caught.append(index)
+                    break                    
+                else:
+                    continue
+        return catch
+        
     
-    pass # TODO: Your code here (10-20 lines)
+    # TODO: Your code here (10-20 lines)
+    for i in range(ntrials):
+        sum += sim_one()
+    return sum / ntrials
 
 if __name__ == '__main__':
     # You can test out things here. Feel free to write anything below.
