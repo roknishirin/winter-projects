@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <stdio.h>
+#include "List.h"
 #define NIL -1
 #define INF -2
 

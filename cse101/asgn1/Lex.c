@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[]) {
     FILE *in, *out;
-    char line[MAX_LEN];
+    char *line = calloc(MAX_LEN, sizeof(char));
 
     // check command line for correct number of arguments
     if (argc != 3) {
@@ -31,34 +31,34 @@ int main(int argc, char *argv[]) {
     }
 
     int line_count = 0;
-    while (fscanf(in, " %s", line) != EOF) {
+    while (fgets(line, MAX_LEN, in) != NULL) {    
         line_count++;
     }
 
     rewind(in); // to read the start of the input file
 
     // allocating array
-    /*change?*/
     char* arry[line_count];
-    int i;
-    for (i=0; i < line_count; i++) {
-        arry[i] = malloc(sizeof(char) * MAX_LEN);
-        fgets(arry[i], MAX_LEN, in);
+    int i = 0;
+    while (fgets(line, 300, in) != NULL) {
+        arry[i] = malloc(300);
+        strcpy(arry[i], line);
+        i++;
     }
 
     // creating the list
-    /*change?*/
     List lst = newList();
     for (int i = 0; i < line_count; i++) {
         moveFront(lst);
-        while (index(lst)>= 0 && strcmp(arry[i], arry[get(lst)])>0) {
+        while ((index(lst)>= 0) && (strcmp(arry[i], arry[get(lst)])>0)) {
             // if there are still differences
             moveNext(lst);
         }
         if (index(lst) == -1) {
             // if at the beginning
             append(lst, i);
-        } else {
+        } else { 
+	    // it is undefined
             insertBefore(lst, i);
         }
     }
@@ -76,6 +76,7 @@ int main(int argc, char *argv[]) {
     }
 
     // closing
+    free(line);
     freeList(&lst);
     fclose(in);
     fclose(out);
