@@ -1,8 +1,8 @@
 # python code for project naive bayes classifier
 # in CSE 107 in 2022 winter, UC Santa Cruz
 
-# Student Name: ____
-# UW Email    : ____@ucsc.edu
+# Student Name: Shirin Rokni
+# UW Email    : shrokni@ucsc.edu
 
 # =============================================================
 # You may define helper functions, but DO NOT MODIFY
@@ -65,6 +65,7 @@ class NaiveBayes():
             3. A list with the ham test data filenames.
             4. A list with the spam test data filenames.
         """
+        print(set (os.listdir(path)))
         assert set(os.listdir(path)) == set(['test', 'train'])
         assert set(os.listdir(os.path.join(path, 'test'))) == set(['ham', 'spam'])
         assert set(os.listdir(os.path.join(path, 'train'))) == set(['ham', 'spam'])
@@ -138,9 +139,23 @@ class NaiveBayes():
             to avoid writing the same code for self.word_counts_spam and
             self.word_counts_ham!
             """
-            pass
+            d = dict()
+            s = set()
+            for f in filenames: 
+                s = self.word_set(f)
+                for i in s:
+                    if i in d:
+                        d[i] += 1
+                    else:
+                        d[i] = 1
+            return d
+                
 
-        pass # TODO: Your code here (10-20 lines)
+        # TODO: Your code here (10-20 lines)
+        self.num_train_hams = len(train_hams)
+        self.num_train_spams = len(train_spams)
+        self.word_counts_spam = get_counts(train_spams)
+        self.word_counts_ham = get_counts(train_hams)
 
     def predict(self, filename:str):
         """
@@ -169,7 +184,21 @@ class NaiveBayes():
         4. You'll want to use the values you set during the fit function.
         Access those variables with a 'self' prefix, like self.num_train_hams.
         """
-        pass # TODO: Your code here (10-20 lines)
+        # TODO: Your code here (10-20 lines)
+        
+        words = self.word_set(filename)
+        spam_prob = self.num_train_spams/ (self.num_train_hams + self.num_train_spams)
+        ham_prob = self.num_train_hams/ (self.num_train_hams + self.num_train_spams)
+        
+        total_spam = total_ham = 0
+        
+        for i in words:
+            total_spam += np.log((self.word_counts_spam.get(i, 0) + 1) / (self.num_train_spams + 2))
+            total_ham += np.log((self.word_counts_ham.get(i, 0) + 1) / (self.num_train_hams + 2))
+                
+        if (total_spam + np.log(spam_prob)) > (total_ham + np.log(ham_prob)):
+            return self.SPAM_LABEL
+        return self.HAM_LABEL
             
 
     def accuracy(self, hams:list, spams:list):
