@@ -127,7 +127,7 @@ def part_d(filename:str='data/pokemon.txt', ntrials:int=5000):
     3. You may want to use np.random.rand(...).
     """
     data = np.genfromtxt(filename)[:, -2]
-    catch_rate = np.genfromtxt(filename)[:,-1]
+    catch_rate = np.genfromtxt(filename)[:, -1]
     n_pokemon = data.shape[0]
     seed = 1
     np.random.seed(seed)
@@ -142,7 +142,7 @@ def part_d(filename:str='data/pokemon.txt', ntrials:int=5000):
         catch = 0
         while (len(caught) < n_pokemon):
             catch += 1
-            n = np.random.random()
+            n = np.random.rand()
             chance = 0
             index = -1
             for i in data:
@@ -150,7 +150,7 @@ def part_d(filename:str='data/pokemon.txt', ntrials:int=5000):
                 index += 1
                 if n < chance:
                     if index not in caught:
-                        if (np.random.random() < catch_rate[index]):
+                        if (np.random.rand() < catch_rate[index]):
                             caught.append(index)
                     break                    
                 else:
@@ -161,7 +161,7 @@ def part_d(filename:str='data/pokemon.txt', ntrials:int=5000):
     # TODO: Your code here (10-20 lines)
     for i in range(ntrials):
         sum += sim_one()
-    return sum / ntrials
+    return (sum / ntrials)
 
 if __name__ == '__main__':
     # You can test out things here. Feel free to write anything below.
