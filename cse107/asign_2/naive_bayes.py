@@ -139,11 +139,15 @@ class NaiveBayes():
             to avoid writing the same code for self.word_counts_spam and
             self.word_counts_ham!
             """
+            punctuation = '\',!.#$%&;:\"()*+,--./:;<=>?@[\]^_`{|}~'
             d = dict()
             s = set()
             for f in filenames: 
                 s = self.word_set(f)
                 for i in s:
+                    if i in punctuation: # ignore punctuation
+                        continue
+                    i = i.lower() # make everything lowercase
                     if i in d:
                         d[i] += 1
                     else:
@@ -186,6 +190,7 @@ class NaiveBayes():
         """
         # TODO: Your code here (10-20 lines)
         
+        punctuation = '\',!.#$%&;:\"()*+,--./:;<=>?@[\]^_`{|}~'
         words = self.word_set(filename)
         spam_prob = self.num_train_spams/ (self.num_train_hams + self.num_train_spams)
         ham_prob = self.num_train_hams/ (self.num_train_hams + self.num_train_spams)
@@ -193,6 +198,9 @@ class NaiveBayes():
         total_spam = total_ham = 0
         
         for i in words:
+            i = i.lower() # want it to be lower case
+            if i in punctuation: # do not want punctuation
+                continue
             total_spam += np.log((self.word_counts_spam.get(i, 0) + 1) / (self.num_train_spams + 2))
             total_ham += np.log((self.word_counts_ham.get(i, 0) + 1) / (self.num_train_hams + 2))
                 
